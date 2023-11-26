@@ -35,27 +35,30 @@ Ball.color("white")
 Ball.penup()
 Ball.shapesize(stretch_len=1,stretch_wid=1)
 Ball.goto(0,0)
+Ball.dx = .25
+Ball.dy = .25
 
 #Functions to move the paddles
 #Left paddle
 def Left_paddle_up():
     y_coordinate = Left_paddle.ycor()
-    y_coordinate += 15
+    y_coordinate += 35
     Left_paddle.sety(y_coordinate)
 def Left_paddle_down():
     y_coordinate = Left_paddle.ycor()
-    y_coordinate -= 15
+    y_coordinate -= 35
     Left_paddle.sety(y_coordinate)
 
 #Right paddles
 def Right_paddle_up():
     y_coordinate = Right_paddle.ycor()
-    y_coordinate += 15
+    y_coordinate += 35
     Right_paddle.sety(y_coordinate)
 def Right_paddle_down():
     y_coordinate = Right_paddle.ycor()
-    y_coordinate -= 15
+    y_coordinate -= 35
     Right_paddle.sety(y_coordinate)
+
 
 
 window.listen()
@@ -66,3 +69,22 @@ window.onkeypress(Right_paddle_down, "Down")
 #Without this, the window closes instantly/automatically
 while True:
     window.update()
+
+    Ball.setx(Ball.xcor() + Ball.dx)
+    Ball.sety(Ball.ycor() + Ball.dy)
+    #Bounces when hit the border
+    if Ball.ycor() == 290:
+        Ball.sety(290)
+        Ball.dy *= -1 
+    
+    if Ball.ycor() == -290:
+        Ball.sety(-290)
+        Ball.dy *= -1
+    
+    if Ball.xcor() == 390:
+        Ball.goto(0, 0)
+        Ball.dx *= -1
+    
+    if Ball.xcor() == -390:
+        Ball.goto (0,0)
+        Ball.dx *= -1
