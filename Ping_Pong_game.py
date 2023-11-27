@@ -1,5 +1,5 @@
 import turtle
-
+import time
 __annotations__
 
 #Setting up the screen
@@ -24,7 +24,7 @@ Right_paddle.speed(0)
 Right_paddle.shape("square")
 Right_paddle.color("white")
 Right_paddle.penup()
-Right_paddle.shapesize(stretch_len=0.5,stretch_wid=5)
+Right_paddle.shapesize(stretch_len = 0.5,stretch_wid = 5)
 Right_paddle.goto(350,0)
 
 #Setting up the Ball
@@ -33,10 +33,10 @@ Ball.speed(0)
 Ball.shape("circle")
 Ball.color("white")
 Ball.penup()
-Ball.shapesize(stretch_len=1,stretch_wid=1)
+Ball.shapesize(stretch_len = 1,stretch_wid = 1)
 Ball.goto(0,0)
-Ball.dx = .25
-Ball.dy = .25
+Ball.dx = 0.15
+Ball.dy = 0.15
 
 #Functions to move the paddles
 #Left paddle
@@ -72,19 +72,26 @@ while True:
 
     Ball.setx(Ball.xcor() + Ball.dx)
     Ball.sety(Ball.ycor() + Ball.dy)
+
     #Bounces when hit the border
-    if Ball.ycor() == 290:
+    if Ball.ycor() >= 290:
         Ball.sety(290)
         Ball.dy *= -1 
     
-    if Ball.ycor() == -290:
+    if Ball.ycor() <= -290:
         Ball.sety(-290)
         Ball.dy *= -1
     
-    if Ball.xcor() == 390:
+    if Ball.xcor() >= 390:
         Ball.goto(0, 0)
         Ball.dx *= -1
     
-    if Ball.xcor() == -390:
+    if Ball.xcor() <= -390:
         Ball.goto (0,0)
+        Ball.dx *= -1
+    
+    if (Ball.xcor() > 340 and Ball.xcor() < 350) and (Ball.ycor() < Right_paddle.ycor() + 65 and Ball.ycor() > Right_paddle.ycor() -65):
+        Ball.dx *= -1
+    
+    if (Ball.xcor() < -340 and Ball.xcor() > -350) and (Ball.ycor() < Left_paddle.ycor() + 65 and Ball.ycor() > Left_paddle.ycor() -55):
         Ball.dx *= -1
