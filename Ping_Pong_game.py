@@ -28,36 +28,54 @@ Right_paddle.shapesize(stretch_len = 0.5,stretch_wid = 5)
 Right_paddle.goto(350,0)
 
 #Setting up the Ball
-Ball = turtle.Turtle()
-Ball.speed(0)
-Ball.shape("circle")
-Ball.color("white")
-Ball.penup()
-Ball.shapesize(stretch_len = 1,stretch_wid = 1)
-Ball.goto(0,0)
-Ball.dx = 0.15
-Ball.dy = 0.15
+class Ball(turtle.Turtle):
+    def __init__(self):
+        super().__init__()
+        self.speed(0)
+        self.shape("circle")
+        self.color("white")
+        self.penup()
+        self.shapesize(stretch_len = 1,stretch_wid = 1)
+        self.goto(0,0)
+        self.dx = 0.2
+        self.dy = 0.15
+    
+    def move(self):
+        self.setx(self.xcor() + self.dx)
+        self.sety(self.ycor() + self.dy)
+
+    def resume_after_point(self):
+        self.goto(0,0)
+        self.dx *= -1
+
+    def pause_each_point(self,time_to_wait):
+        window.ontimer(self.resume_after_point, time_to_wait)
 
 #Functions to move the paddles
 #Left paddle
 def Left_paddle_up():
     y_coordinate = Left_paddle.ycor()
-    y_coordinate += 35
+    if y_coordinate < 225:
+        y_coordinate += 45
     Left_paddle.sety(y_coordinate)
 def Left_paddle_down():
     y_coordinate = Left_paddle.ycor()
-    y_coordinate -= 35
+    if y_coordinate > -215:
+        y_coordinate -= 45
     Left_paddle.sety(y_coordinate)
 
 #Right paddles
 def Right_paddle_up():
     y_coordinate = Right_paddle.ycor()
-    y_coordinate += 35
+    if y_coordinate < 225:
+        y_coordinate += 45
     Right_paddle.sety(y_coordinate)
 def Right_paddle_down():
     y_coordinate = Right_paddle.ycor()
-    y_coordinate -= 35
+    if y_coordinate > -215:
+        y_coordinate -= 45
     Right_paddle.sety(y_coordinate)
+
 
 
 
@@ -67,31 +85,31 @@ window.onkeypress(Left_paddle_down, "s")
 window.onkeypress(Right_paddle_up, "Up")
 window.onkeypress(Right_paddle_down, "Down")
 #Without this, the window closes instantly/automatically
+
+ball = Ball()
 while True:
     window.update()
-
-    Ball.setx(Ball.xcor() + Ball.dx)
-    Ball.sety(Ball.ycor() + Ball.dy)
-
+    ball.move()
     #Bounces when hit the border
-    if Ball.ycor() >= 290:
-        Ball.sety(290)
-        Ball.dy *= -1 
+    if ball.ycor() >= 290:
+        ball.sety(290)
+        ball.dy *= -1 
     
-    if Ball.ycor() <= -290:
-        Ball.sety(-290)
-        Ball.dy *= -1
+    if ball.ycor() <= -290:
+        ball.sety(-290)
+        ball.dy *= -1
+
     
-    if Ball.xcor() >= 390:
-        Ball.goto(0, 0)
-        Ball.dx *= -1
+    if ball.xcor() >= 390:
+        ball.pause_each_point(1000)
+        
     
-    if Ball.xcor() <= -390:
-        Ball.goto (0,0)
-        Ball.dx *= -1
+    if ball.xcor() <= -390:
+        ball.pause_each_point(1000)
     
-    if (Ball.xcor() > 340 and Ball.xcor() < 350) and (Ball.ycor() < Right_paddle.ycor() + 65 and Ball.ycor() > Right_paddle.ycor() -65):
-        Ball.dx *= -1
+    if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < Right_paddle.ycor() + 65 and ball.ycor() > Right_paddle.ycor() -65):
+        ball.dx *= -1.05
+
     
-    if (Ball.xcor() < -340 and Ball.xcor() > -350) and (Ball.ycor() < Left_paddle.ycor() + 65 and Ball.ycor() > Left_paddle.ycor() -55):
-        Ball.dx *= -1
+    if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < Left_paddle.ycor() + 65 and ball.ycor() > Left_paddle.ycor() -55):
+        ball.dx *= -1.05
