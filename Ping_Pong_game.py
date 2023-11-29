@@ -1,3 +1,10 @@
+'''
+Vince Herrera
+
+11/28/2023
+
+The purpose of this file is to run a ping pong game
+'''
 import turtle
 import time
 from ball import Ball

@@ -1,3 +1,10 @@
+'''
+Vince Herrera
+
+11/28/2023
+
+This file contains the class and functions for the ball for the ping pong game
+'''
 #Setting up the Ball, changed it into a class
 import time
 import turtle
